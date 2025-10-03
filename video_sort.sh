@@ -246,11 +246,26 @@ organize_by_codec() {
             continue
         fi
         
-        # Create target directory for codec
-        target_dir="$OUTPUT_DIR/$codec"
+        # Determine resolution category
+        if [ "$height" -ge 2160 ]; then
+            resolution="4K_${width}x${height}"
+        elif [ "$height" -ge 1440 ]; then
+            resolution="2K_${width}x${height}"
+        elif [ "$height" -ge 1080 ]; then
+            resolution="1080p_${width}x${height}"
+        elif [ "$height" -ge 720 ]; then
+            resolution="720p_${width}x${height}"
+        elif [ "$height" -ge 480 ]; then
+            resolution="480p_${width}x${height}"
+        else
+            resolution="SD_${width}x${height}"
+        fi
+        
+        # Create target directory for codec and resolution
+        target_dir="$OUTPUT_DIR/$codec/$resolution"
         
         echo "  Codec: $codec"
-        echo "  Resolution: ${width}x${height}"
+        echo "  Resolution: $resolution"
         echo "  Target: $target_dir"
         
         # Create target directory
